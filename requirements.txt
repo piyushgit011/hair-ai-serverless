@@ -1,0 +1,7 @@
+firebase-admin
+opencv-python
+numpy
+torch
+runpod
+pillow
+supervision
