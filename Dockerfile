@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.8-slim
+FROM python:3.10-slim
 
 # Set the working directory in the container
 WORKDIR /app
@@ -34,11 +34,15 @@ RUN git clone https://github.com/SysCV/sam-hq.git && \
     export PYTHONPATH=$(pwd) && \
     cd ..
 
+ENV PYTHONPATH="/app/sam-hq:$PYTHONPATH"
+
 # Copy all files from the current directory to /app in the container
 COPY . /app
 
 # Install any necessary dependencies specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+
+ENV PYTHONUNBUFFERED=1
 
 # Command to run your application
 CMD ["python3", "-u", "rp_handler.py"]
