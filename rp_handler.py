@@ -58,7 +58,17 @@ def enhance_class_name(class_names: List[str]) -> List[str]:
         in class_names
     ]
 
-
+def segment(sam_predictor: SamPredictor, image: np.ndarray, xyxy: np.ndarray) -> np.ndarray:
+    sam_predictor.set_image(image)
+    result_masks = []
+    for box in xyxy:
+        masks, scores, logits = sam_predictor.predict(
+            box=box,
+            multimask_output=True
+        )
+        index = np.argmax(scores)
+        result_masks.append(masks[index])
+    return np.array(result_masks)
 
 def process_input(input):
         """
